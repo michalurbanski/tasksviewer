@@ -27,7 +27,32 @@ namespace TasksViewer
         /// <returns>InputArguments object</returns>
         public InputArguments Parse()
         {
+            if (_arguments != null && _arguments.Count() == 1)
+            {
+                return new InputArguments
+                {
+                    IsSharePointListInsert = true, 
+                    SharePointWebAddress = _arguments[0], 
+                    IsValidHttpAddress = IsValidAddress(_arguments[0])
+                }; 
+            }
+
             return new InputArguments(); 
+        }
+
+        #endregion
+
+        #region private methods
+
+        /// <summary>
+        /// Checks if given address is valid http address
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
+        private bool IsValidAddress(string address)
+        {
+            Uri uriResult;
+            return Uri.TryCreate(address, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp; 
         }
 
         #endregion

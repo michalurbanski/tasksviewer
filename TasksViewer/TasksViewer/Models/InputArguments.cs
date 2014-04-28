@@ -13,5 +13,6 @@ namespace TasksViewer.Models
     {
         public bool IsSharePointListInsert { get; set; }
         public string SharePointWebAddress { get; set; }
+        public bool IsValidHttpAddress { get; set; }
     }
 }
