@@ -1,4 +1,6 @@
-﻿using System;
+﻿using log4net.Appender;
+using log4net.Layout;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +21,11 @@ namespace TasksViewer
         /// <param name="args">First arg - SharePoint site for which code review tasks should be inserted - not required</param>
         static void Main(string[] args)
         {
+            // TODO - Requires permission to create file 
+            log4net.Config.BasicConfigurator.Configure();
+            
+
+
             // 1. Parse input - if first arg is filled then assume that SharePoint tasks list should be performed
             InputParser inputParser = new InputParser(args);
             InputArguments inputParseArguments = inputParser.Parse();
@@ -43,7 +50,8 @@ namespace TasksViewer
                 // 2. Prompt for command - TODO
 
                 // 2. a. For now all projects in collection are listed 
-
+                TFSHelper tfs = new TFSHelper(tfsAddress);
+                tfs.ListAllCollections(); 
 
 
             }
@@ -57,6 +65,10 @@ namespace TasksViewer
 
             // 4. Get reports foreach defined project
             // 4a. Save to csv list of all tasks for specified project
+
+
+            Console.WriteLine("End of program");
+            Console.ReadLine(); 
         }
     }
 }
