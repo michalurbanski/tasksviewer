@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\InputParser.cs" />
+    <Compile Include="Helpers\URLHelper.cs" />
     <Compile Include="Interfaces\IInputParse.cs" />
     <Compile Include="Models\InputArguments.cs" />
     <Compile Include="Program.cs" />

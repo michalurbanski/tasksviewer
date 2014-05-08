@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using TasksViewer.Interfaces;
 using TasksViewer.Models;
+using TasksViewer.Helpers; 
 
 namespace TasksViewer
 {
@@ -33,26 +34,11 @@ namespace TasksViewer
                 {
                     IsSharePointListInsert = true, 
                     SharePointWebAddress = _arguments[0], 
-                    IsValidHttpAddress = IsValidAddress(_arguments[0])
+                    IsValidHttpAddress = URLHelper.IsValidAddress(_arguments[0])
                 }; 
             }
 
             return new InputArguments(); 
-        }
-
-        #endregion
-
-        #region private methods
-
-        /// <summary>
-        /// Checks if given address is valid http address
-        /// </summary>
-        /// <param name="address"></param>
-        /// <returns></returns>
-        private bool IsValidAddress(string address)
-        {
-            Uri uriResult;
-            return Uri.TryCreate(address, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp; 
         }
 
         #endregion
