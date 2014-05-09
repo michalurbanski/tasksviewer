@@ -51,9 +51,12 @@ namespace TasksViewer
 
                 // 2. a. For now all projects in collection are listed 
                 TFSHelper tfs = new TFSHelper(tfsAddress);
-                tfs.ListAllCollections(); 
+                tfs.ListAllCollections();
 
+                var projects = tfs.GetAllTeamProjects();
+                tfs.ListAllProjectsNames(projects);
 
+                tfs.QueryAllWorkItems(projects[0]); 
             }
 
             // TODO - further implementation

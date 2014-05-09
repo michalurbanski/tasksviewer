@@ -4,7 +4,9 @@ using log4net.Layout;
 using log4net.Repository.Hierarchy;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Framework.Client;
+using Microsoft.TeamFoundation.Framework.Client.Catalog.Objects;
 using Microsoft.TeamFoundation.Framework.Common;
+using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -48,8 +50,6 @@ namespace TasksViewer.Helpers
         {
             try
             {
-
-
                 TfsConfigurationServer server = TfsConfigurationServerFactory.GetConfigurationServer(new Uri(_tfsAddress));
 
                 ReadOnlyCollection<CatalogNode> collectionNodes = server.CatalogNode.QueryChildren(new[] { CatalogResourceTypes.ProjectCollection }, false, CatalogQueryOptions.None);
@@ -59,20 +59,71 @@ namespace TasksViewer.Helpers
                     Guid collectionId = new Guid(node.Resource.Properties["InstanceId"]);
                     TfsTeamProjectCollection teamProjectCollection = server.GetTeamProjectCollection(collectionId);
                     Console.WriteLine("Collection: " + teamProjectCollection.Name);
+
+                    // TODO - temporary list all projects also here
+                    ReadOnlyCollection<CatalogNode> projectNodes = node.QueryChildren(new[] { CatalogResourceTypes.TeamProject }, false, CatalogQueryOptions.None); 
+                    foreach (CatalogNode elem in projectNodes)
+                    {
+                        Console.WriteLine("Team project name is: " + elem.Resource.DisplayName);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                // custom exception handling
+                // custom exception handling - TODO throw custom exception
                 _logger.Error("Tfs conection error: " + ex.Message); 
                 throw;
             }
         }
 
+
         public void ListAllProjects()
         {
             throw new NotImplementedException("To be implemented"); 
         }
+
+        /// <summary>
+        /// Gets all team projects
+        /// </summary>
+        /// <returns></returns>
+        public Microsoft.TeamFoundation.WorkItemTracking.Client.ProjectCollection GetAllTeamProjects()
+        {
+            var tfs = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(_tfsAddress));
+            var wiStore = tfs.GetService<WorkItemStore>();
+
+            return wiStore.Projects; 
+        }
+
+        public void ListAllProjectsNames(Microsoft.TeamFoundation.WorkItemTracking.Client.ProjectCollection projects)
+        {
+            Console.WriteLine("List all project names new method");
+
+            foreach (Project elem in projects)
+            {
+                Console.WriteLine("Project name is: " + elem.Name);
+            }
+        }
+
+        public void QueryAllWorkItems(Project project)
+        {
+            string query =   " SELECT [System.Id], [System.WorkItemType],"+
+          " [System.State], [System.AssignedTo], [System.Title] "+
+          " FROM WorkItems " + 
+          " WHERE [System.TeamProject] = '" + project.Name + 
+          "' ORDER BY [System.WorkItemType], [System.Id]";
+
+            
+            var tfs = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(_tfsAddress));
+            var wiStore = tfs.GetService<WorkItemStore>();
+
+            WorkItemCollection workItems = wiStore.Query(query); 
+
+            foreach(WorkItem wi in workItems)
+            {
+                Console.WriteLine(wi.Title + "[" + wi.Type.Name + "]" + wi.State);
+            }
+        }
+
 
     }
 }
