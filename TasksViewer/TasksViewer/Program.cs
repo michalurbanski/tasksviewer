@@ -1,5 +1,7 @@
-﻿using log4net.Appender;
+﻿using log4net;
+using log4net.Appender;
 using log4net.Layout;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,11 @@ namespace TasksViewer
         {
             // TODO - Requires permission to create file 
             log4net.Config.BasicConfigurator.Configure();
-            
+
+            var kernel = new StandardKernel();
+            //kernel.Bind<ILog>().To<TFSHelper>(); 
+            kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.ReflectedType)).InTransientScope();
+            TFSHelper helper = kernel.Get<TFSHelper>();
 
 
             // 1. Parse input - if first arg is filled then assume that SharePoint tasks list should be performed
@@ -50,7 +56,7 @@ namespace TasksViewer
                 // 2. Prompt for command - TODO
 
                 // 2. a. For now all projects in collection are listed 
-                TFSHelper tfs = new TFSHelper(tfsAddress);
+                TFSHelper tfs = null; // new TFSHelper(tfsAddress);
                 tfs.ListAllCollections();
 
                 var projects = tfs.GetAllTeamProjects();

@@ -26,20 +26,37 @@ namespace TasksViewer.Helpers
         private string _tfsAddress;
         
         // TODO - use dependency injection for logging
-        private static readonly ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType); 
-
+        //private static readonly ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType); 
+        private static ILog _logger; 
+        
         #endregion
 
         #region ctors
 
-        public TFSHelper(string tfsAddress)
+        //public TFSHelper(ILog logger, string tfsAddress)
+        //{
+        //    _tfsAddress = tfsAddress;
+        //    _logger = logger; 
+            
+        //    SimpleLayout layout = new SimpleLayout();
+        //    FileAppender appender = new FileAppender(layout, System.Environment.SpecialFolder.MyDocuments + "mylogFile.txt", false); 
+            
+        //}
+
+        public TFSHelper(ILog logger)
         {
-            _tfsAddress = tfsAddress;
+            _logger = logger;
+
             
+
+
             SimpleLayout layout = new SimpleLayout();
-            FileAppender appender = new FileAppender(layout, System.Environment.SpecialFolder.MyDocuments + "mylogFile.txt", false); 
-            
+            FileAppender appender = new FileAppender(layout, System.Environment.SpecialFolder.MyDocuments + "mylogFile.txt", false);
+
+            // TODO - simple test of logging 
+            _logger.Info("Test of logger using dependency injection"); 
         }
+
 
         #endregion
 
