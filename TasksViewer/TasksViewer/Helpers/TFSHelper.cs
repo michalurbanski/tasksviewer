@@ -124,6 +124,34 @@ namespace TasksViewer.Helpers
             }
         }
 
+        // TODO - should be parameterized by date
+        public void QueryClosedTodayWorkItems(Project project)
+        {
+            string query = " SELECT [System.Id], [System.WorkItemType]," +
+          " [System.State], [System.AssignedTo], [System.Title] " +
+          " FROM WorkItems " +
+          " WHERE [System.TeamProject] = '" + project.Name + "'" + 
+          " AND [System.State] = '" + "done" + "'"  +
+          " AND [Microsoft.VSTS.Common.ClosedDate] = " + "@today" + 
+          " ORDER BY [System.WorkItemType], [System.Id]";
+            
+            var tfs = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(_tfsAddress));
+            var wiStore = tfs.GetService<WorkItemStore>();
+
+            WorkItemCollection workItems = wiStore.Query(query);
+            if (workItems.Count == 0)
+            {
+                Console.WriteLine("No closed work items");
+                return; 
+            }
+
+
+            foreach (WorkItem wi in workItems)
+            {
+                Console.WriteLine(wi.Title + "[" + wi.Type.Name + "]" + wi.State);
+            }
+        }
+
 
     }
 }

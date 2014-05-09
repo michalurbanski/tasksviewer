@@ -56,7 +56,9 @@ namespace TasksViewer
                 var projects = tfs.GetAllTeamProjects();
                 tfs.ListAllProjectsNames(projects);
 
-                tfs.QueryAllWorkItems(projects[0]); 
+                tfs.QueryAllWorkItems(projects[0]);
+                Console.WriteLine("Closed tasks");
+                tfs.QueryClosedTodayWorkItems(projects[0]);
             }
 
             // TODO - further implementation
