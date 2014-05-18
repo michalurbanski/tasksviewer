@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TasksViewer.Helpers;
 using TasksViewer.Models;
+using TasksViewer.Ninject;
 
 namespace TasksViewer
 {
@@ -23,14 +24,12 @@ namespace TasksViewer
         /// <param name="args">First arg - SharePoint site for which code review tasks should be inserted - not required</param>
         static void Main(string[] args)
         {
-            // TODO - Requires permission to create file 
-            log4net.Config.BasicConfigurator.Configure();
+            // line below causes output to console - it's not needed 
+            //log4net.Config.BasicConfigurator.Configure();
 
-            var kernel = new StandardKernel();
-            //kernel.Bind<ILog>().To<TFSHelper>(); 
-            kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.ReflectedType)).InTransientScope();
-            TFSHelper helper = kernel.Get<TFSHelper>();
-
+            // Ninject configuration
+            KernelManager kernelManager = new KernelManager();
+            var helper = kernelManager.TfsHelper; 
 
             // 1. Parse input - if first arg is filled then assume that SharePoint tasks list should be performed
             InputParser inputParser = new InputParser(args);
