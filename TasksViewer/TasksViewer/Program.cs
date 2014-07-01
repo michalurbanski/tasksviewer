@@ -21,7 +21,7 @@ namespace TasksViewer
         /// <summary>
         /// Main entry point in application
         /// </summary>
-        /// <param name="args">First arg - SharePoint site for which code review tasks should be inserted - not required</param>
+        /// <param name="args">{0} SharePoint site for which code review tasks should be inserted - not required</param>
         static void Main(string[] args)
         {
             // line below causes output to console - it's not needed 
@@ -48,6 +48,8 @@ namespace TasksViewer
                 do
                 {
                     Console.WriteLine("Please provide TFS address");
+                    
+                    // Expected format is e.g. http://server_name:8080/tfs
                     tfsAddress = Console.ReadLine(); 
                 }
                 while(URLHelper.IsValidAddress(tfsAddress) == false);

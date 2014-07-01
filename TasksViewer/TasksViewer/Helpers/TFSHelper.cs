@@ -56,7 +56,7 @@ namespace TasksViewer.Helpers
         #endregion
 
         /// <summary>
-        /// Lists all TFS collection, each collection can have project
+        /// Lists all TFS collection from server, each collection can have project
         /// </summary>
         public void ListAllCollections()
         {
@@ -88,10 +88,11 @@ namespace TasksViewer.Helpers
             }
         }
 
+        #region Currently not used
 
         public void ListAllProjects()
         {
-            throw new NotImplementedException("To be implemented"); 
+            throw new NotImplementedException("To be implemented");
         }
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace TasksViewer.Helpers
             var tfs = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(_tfsAddress));
             var wiStore = tfs.GetService<WorkItemStore>();
 
-            return wiStore.Projects; 
+            return wiStore.Projects;
         }
 
         public void ListAllProjectsNames(Microsoft.TeamFoundation.WorkItemTracking.Client.ProjectCollection projects)
@@ -118,19 +119,19 @@ namespace TasksViewer.Helpers
 
         public void QueryAllWorkItems(Project project)
         {
-            string query =   " SELECT [System.Id], [System.WorkItemType],"+
-          " [System.State], [System.AssignedTo], [System.Title] "+
-          " FROM WorkItems " + 
-          " WHERE [System.TeamProject] = '" + project.Name + 
+            string query = " SELECT [System.Id], [System.WorkItemType]," +
+          " [System.State], [System.AssignedTo], [System.Title] " +
+          " FROM WorkItems " +
+          " WHERE [System.TeamProject] = '" + project.Name +
           "' ORDER BY [System.WorkItemType], [System.Id]";
 
-            
+
             var tfs = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(_tfsAddress));
             var wiStore = tfs.GetService<WorkItemStore>();
 
-            WorkItemCollection workItems = wiStore.Query(query); 
+            WorkItemCollection workItems = wiStore.Query(query);
 
-            foreach(WorkItem wi in workItems)
+            foreach (WorkItem wi in workItems)
             {
                 Console.WriteLine(wi.Title + "[" + wi.Type.Name + "]" + wi.State);
             }
@@ -142,11 +143,11 @@ namespace TasksViewer.Helpers
             string query = " SELECT [System.Id], [System.WorkItemType]," +
           " [System.State], [System.AssignedTo], [System.Title] " +
           " FROM WorkItems " +
-          " WHERE [System.TeamProject] = '" + project.Name + "'" + 
-          " AND [System.State] = '" + "done" + "'"  +
-          " AND [Microsoft.VSTS.Common.ClosedDate] = " + "@today" + 
+          " WHERE [System.TeamProject] = '" + project.Name + "'" +
+          " AND [System.State] = '" + "done" + "'" +
+          " AND [Microsoft.VSTS.Common.ClosedDate] = " + "@today" +
           " ORDER BY [System.WorkItemType], [System.Id]";
-            
+
             var tfs = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(_tfsAddress));
             var wiStore = tfs.GetService<WorkItemStore>();
 
@@ -154,7 +155,7 @@ namespace TasksViewer.Helpers
             if (workItems.Count == 0)
             {
                 Console.WriteLine("No closed work items");
-                return; 
+                return;
             }
 
 
@@ -162,8 +163,8 @@ namespace TasksViewer.Helpers
             {
                 Console.WriteLine(wi.Title + "[" + wi.Type.Name + "]" + wi.State);
             }
-        }
-
+        } 
+        #endregion
 
     }
 }
