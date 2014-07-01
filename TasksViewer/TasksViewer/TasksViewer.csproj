@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BusinessLogic\TFSFcd.cs" />
     <Compile Include="Converters\log4netConverters\MyDocumentsConverter.cs" />
+    <Compile Include="Configuration\ConfigurationVariables.cs" />
     <Compile Include="Helpers\InputParser.cs" />
     <Compile Include="Helpers\TFSHelper.cs" />
     <Compile Include="Helpers\URLHelper.cs" />
