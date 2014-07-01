@@ -55,15 +55,20 @@ namespace TasksViewer
                 // 2. Prompt for command - TODO
 
                 // 2. a. For now all projects in collection are listed 
-                TFSHelper tfs = null; // new TFSHelper(tfsAddress);
-                tfs.ListAllCollections();
+                // Get TFSHelper class created using ninject module
+                helper.TFSAddress = tfsAddress;
+                helper.ListAllCollections(); 
 
-                var projects = tfs.GetAllTeamProjects();
-                tfs.ListAllProjectsNames(projects);
 
-                tfs.QueryAllWorkItems(projects[0]);
-                Console.WriteLine("Closed tasks");
-                tfs.QueryClosedTodayWorkItems(projects[0]);
+                //TFSHelper tfs = null; // new TFSHelper(tfsAddress);
+                //tfs.ListAllCollections();
+
+                //var projects = tfs.GetAllTeamProjects();
+                //tfs.ListAllProjectsNames(projects);
+
+                //tfs.QueryAllWorkItems(projects[0]);
+                //Console.WriteLine("Closed tasks");
+                //tfs.QueryClosedTodayWorkItems(projects[0]);
             }
 
             // TODO - further implementation

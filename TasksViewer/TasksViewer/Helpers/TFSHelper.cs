@@ -46,6 +46,15 @@ namespace TasksViewer.Helpers
 
         #endregion
 
+        #region Properties
+
+        public string TFSAddress
+        {
+            set { _tfsAddress = value; }
+        }
+
+        #endregion
+
         /// <summary>
         /// Lists all TFS collection, each collection can have project
         /// </summary>
