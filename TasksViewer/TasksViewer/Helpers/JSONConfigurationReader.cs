@@ -9,6 +9,7 @@ using TasksViewer.Models;
 
 namespace TasksViewer.Helpers
 {
+    // TODO - in context of unit tests think about inheritance instead of adding new methods 
     /// <summary>
     /// Reader for configuration stored in json file
     /// </summary>
@@ -18,20 +19,38 @@ namespace TasksViewer.Helpers
         private List<ConfigurationModel> _configurationValues = new List<ConfigurationModel>();
         private string _jsonFilePath;
 
+        public ConfigurationModel ConfigurationValuesModel
+        {
+            get { return _configurationValues.FirstOrDefault(); }
+        }
+
+        public JSONConfigurationReader()
+        {
+            // empty
+        }
+
         public JSONConfigurationReader(string jsonFilePath)
         {
             _jsonFilePath = jsonFilePath;
         }
 
+        /// <summary>
+        /// Reads configuration values from file on disk in specified path by constructor
+        /// </summary>
         public void LoadConfiguration()
         {
             using(StreamReader reader = new StreamReader(_jsonFilePath))
             {
                 string json = reader.ReadToEnd();
-                List<ConfigurationModel> values = JsonConvert.DeserializeObject<List<ConfigurationModel>>(json);
+                DeserializeContent(json);
 
                 ValidateConfigurationValues(); 
             }
+        }
+
+        public void DeserializeContent(string text)
+        {
+            _configurationValues = JsonConvert.DeserializeObject<List<ConfigurationModel>>(text);
         }
 
         private void ValidateConfigurationValues()
@@ -49,7 +68,6 @@ namespace TasksViewer.Helpers
 
         public override string ToString()
         {
-            //return base.ToString();
             string result = string.Empty; 
 
             foreach(var elem in _configurationValues)

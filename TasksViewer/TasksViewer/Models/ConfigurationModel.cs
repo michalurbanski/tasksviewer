@@ -11,7 +11,6 @@ namespace TasksViewer.Models
     /// </summary>
     public class ConfigurationModel
     {
-        // TODO - is this variable case-sensitive in context of json file ? 
-        public string TFSAddress { get; set; }
+        public string TFSAddress { get; set; } // not case-aware - it's good in context of variables naming
     }
 }

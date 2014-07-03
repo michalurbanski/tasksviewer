@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TasksViewer.Configuration;
 using TasksViewer.Helpers;
+using TasksViewer.Models;
 using TasksViewer.UnitTests.Helpers;
 
 namespace TasksViewer.UnitTests
@@ -70,14 +71,25 @@ namespace TasksViewer.UnitTests
         [Test]
         public void ReadJsonConfiguration_ValidConfiguration_ShouldSuccess()
         {
-            string fullPath = "\\Files\\configuration.json";
+            //string fullPath = "\\Files\\configuration.json";
 
-            JSONConfigurationReader reader = new JSONConfigurationReader(fullPath);
-            reader.LoadConfiguration(); 
-            
-            string result = reader.ToString(); 
+            //JSONConfigurationReader reader = new JSONConfigurationReader(fullPath);
+            //reader.LoadConfiguration(); 
 
-            Assert.IsNotNullOrEmpty(result);
+            string json = ReadEmbeddedFile.ReadEmbeddedConfigurationFile(); 
+
+            JSONConfigurationReader reader = new JSONConfigurationReader();
+            reader.DeserializeContent(json); 
+
+            string result = reader.ToString();
+
+            Assert.IsNotNullOrEmpty(result); // does json parse returns any values
+
+            // use object model
+            ConfigurationModel model = reader.ConfigurationValuesModel;
+            Assert.IsNotNullOrEmpty(model.TFSAddress);
+
+            Console.WriteLine(model.TFSAddress);
         }
     }
 }
