@@ -38,6 +38,9 @@
     <Reference Include="Microsoft.TeamFoundation.Client, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.TeamFoundation.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.TeamFoundation.WorkItemTracking.Client, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -54,9 +57,11 @@
     <Compile Include="Converters\log4netConverters\MyDocumentsConverter.cs" />
     <Compile Include="Configuration\ConfigurationVariables.cs" />
     <Compile Include="Helpers\InputParser.cs" />
+    <Compile Include="Helpers\JSONConfigurationReader.cs" />
     <Compile Include="Helpers\TFSHelper.cs" />
     <Compile Include="Helpers\URLHelper.cs" />
     <Compile Include="Interfaces\IInputParse.cs" />
+    <Compile Include="Models\ConfigurationModel.cs" />
     <Compile Include="Models\InputArguments.cs" />
     <Compile Include="Ninject\KernelManager.cs" />
     <Compile Include="Ninject\LoggerModule.cs" />
@@ -67,6 +72,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Configuration\configuration.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

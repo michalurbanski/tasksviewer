@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TasksViewer.Configuration;
+using TasksViewer.Helpers;
 
 namespace TasksViewer.UnitTests
 {
@@ -54,6 +55,19 @@ namespace TasksViewer.UnitTests
             string result = _configuration.ConfigurationFileFullPath;
 
             Assert.True(result.Contains(fileName));
+        }
+
+        [Test]
+        public void ReadJsonConfiguration_ValidConfiguration_ShouldSuccess()
+        {
+            string fullPath = "\\Files\\configuration.json";
+
+            JSONConfigurationReader reader = new JSONConfigurationReader(fullPath);
+            reader.LoadConfiguration(); 
+            
+            string result = reader.ToString(); 
+
+            Assert.IsNotNullOrEmpty(result);
         }
     }
 }
