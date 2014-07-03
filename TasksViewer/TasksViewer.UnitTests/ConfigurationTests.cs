@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TasksViewer.Configuration;
 using TasksViewer.Helpers;
+using TasksViewer.UnitTests.Helpers;
 
 namespace TasksViewer.UnitTests
 {
@@ -55,6 +56,15 @@ namespace TasksViewer.UnitTests
             string result = _configuration.ConfigurationFileFullPath;
 
             Assert.True(result.Contains(fileName));
+        }
+
+        [Test]
+        public void ReadEmbeddedFile_ShouldSuccess()
+        {
+            string fileContent = ReadEmbeddedFile.ReadEmbeddedConfigurationFile();
+
+            Assert.IsNotNullOrEmpty(fileContent);
+            Console.WriteLine(fileContent);
         }
 
         [Test]

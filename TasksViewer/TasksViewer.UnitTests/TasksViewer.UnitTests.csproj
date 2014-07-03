@@ -45,11 +45,12 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="ConfigurationTests.cs" />
+    <Compile Include="Helpers\ReadEmbeddedFile.cs" />
     <Compile Include="InputParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Files\Configuration.json" />
+    <EmbeddedResource Include="Files\Configuration.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
